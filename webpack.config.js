@@ -23,7 +23,7 @@ module.exports = {
                   ie: 11,
                 },
                 useBuiltIns: 'usage',
-                modules: false,
+                modules: 'commonjs',
                 debug: true,
               }],
             ],
