@@ -23,11 +23,19 @@ module.exports = {
                   ie: 11,
                 },
                 useBuiltIns: 'usage',
-                modules: 'cjs',
+                modules: false,
                 debug: true,
               }],
             ],
-            plugins: ['@babel/plugin-transform-modules-commonjs'],
+
+
+            plugins: [
+              ['@babel/plugin-transform-modules-commonjs', {
+                allowTopLevelThis: true,
+                strict: true,
+              }],
+              '@babel/plugin-transform-runtime',
+            ],
           },
         },
       },
