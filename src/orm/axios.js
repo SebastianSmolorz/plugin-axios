@@ -1,8 +1,8 @@
-import axios from 'axios'
+// import axios from 'axios'
 
 export default class Axios {
   constructor(http) {
-    this.instance = axios.create(http);
+    this.instance = {};
     this.setAuthentication(http.access_token);
 
     this.instance.interceptors.request.use(
