@@ -1,5 +1,3 @@
-import Context from './common/context'
-
 export default class VuexOrmAxios {
   /**
    * @constructor
@@ -7,7 +5,7 @@ export default class VuexOrmAxios {
    * @param {Options} options The options passed to VuexORM.install
    */
   constructor(components, options) {
-    Context.setup(components, options)
+      return options
     // this.setupActions()
     // this.setupModels()
   }

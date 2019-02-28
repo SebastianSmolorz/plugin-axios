@@ -1,5 +1,3 @@
-import { Database } from '@vuex-orm/core'
-
 export const AxiosRequestConfig = {
   /**
    * Default Base URL
