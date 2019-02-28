@@ -35,6 +35,7 @@ export default class Context {
    * @returns {Context}
    */
   static getInstance() {
+
     return this.instance
   }
 
