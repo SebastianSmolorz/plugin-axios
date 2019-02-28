@@ -30,10 +30,10 @@ module.exports = {
 
 
             plugins: [
-              ['@babel/plugin-transform-modules-commonjs', {
-                allowTopLevelThis: true,
-                strict: true,
-              }],
+              // ['@babel/plugin-transform-modules-commonjs', {
+              //   allowTopLevelThis: true,
+              //   strict: true,
+              // }],
               '@babel/plugin-transform-runtime',
             ],
           },
