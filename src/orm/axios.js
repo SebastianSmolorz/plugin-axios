@@ -11,8 +11,8 @@ export default class Axios {
     );
 
 
-    this.instance.interceptors.request.use(
-      config => http.onRequest(config),
+    this.instance.interceptors.response.use(
+      response => http.onResponse(response),
       error => http.onError(error),
     );
 
