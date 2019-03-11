@@ -10,7 +10,7 @@ export default class Update extends Action {
      * @param {object} params
      * @param {boolean} save
      */
-  static async call({ state, commit }, params = { save: true }) {
+  static async call({ state, commit }, params = {}, callback = null) {
     if (!params.data || typeof params !== 'object') {
       throw new TypeError('You must include a data object in the params to send a POST request', params);
     }
@@ -22,7 +22,7 @@ export default class Update extends Action {
 
     this.onRequest(model, params);
     request
-      .then(data => this.onSuccess(model, params, data, params.save))
+      .then(data => this.onSuccess(model, params, data, callback))
       .catch(error => this.onError(model, params, error));
 
     return request
@@ -44,13 +44,18 @@ export default class Update extends Action {
   }
 
   /**
-   * On Successful Request Method
-   * @param {object} model
-   * @param {object} params
-   * @param {object} data
-   */
-  static onSuccess(model, params, data, save) {
-    if (save === true) {
+     * On Successful Request Method
+     * @param {object} model
+     * @param {object} params
+     * @param {object} data
+     * @param {function} callback
+     */
+  static onSuccess(model, params, data, callback) {
+    if (callback !== null) {
+      return new Promise((resolve, reject) => {
+        callback(resolve, reject);
+      });
+    } else {
       model.update({
         where: params.params.id || data.id,
         data: merge({}, data, {
