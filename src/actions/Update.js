@@ -11,7 +11,6 @@ export default class Update extends Action {
    * @param {function} callback
    */
   static async call({ state, commit }, params = {}) {
-    console.log('Mparams', params);
     if (!params.data || typeof params !== 'object') {
       throw new TypeError('You must include a data object in the params to send a POST request', params);
     }
@@ -24,10 +23,9 @@ export default class Update extends Action {
     this.onRequest(model, params);
 
     let onSuccessCallback;
-    if (params.onSuccess !== undefined) {
+    if (params.onSuccess && params.onSuccess !== undefined) {
       onSuccessCallback = params.onSuccess;
     }
-    console.log('cb', onSuccessCallback)
     request
       .then(data => this.onSuccess(model, params, data, onSuccessCallback))
       .catch(error => this.onError(model, params, error));
@@ -41,15 +39,13 @@ export default class Update extends Action {
    * @param {object} params
    */
   static onRequest(model, params) {
-    try {
-      model.update({
-        where: params.params.id,
-        data: {
-          $isUpdating: true,
-          $updateErrors: [],
-        },
-      });
-    } catch {}
+    model.update({
+      where: params.params.id,
+      data: {
+        $isUpdating: true,
+        $updateErrors: [],
+      },
+    });
   }
 
   /**
@@ -61,7 +57,6 @@ export default class Update extends Action {
      */
   static onSuccess(model, params, data, callback) {
     if (callback !== undefined) {
-      console.log('HAS CB', callback);
       return callback({ model, params, data });
     }
     model.update({
