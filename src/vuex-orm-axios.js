@@ -60,6 +60,7 @@ export default class VuexOrmAxios {
     }
 
     context.components.Model.$update = function(config = {}) {
+      console.log('config', config)
       return this.dispatch('$update', config)
     }
 
