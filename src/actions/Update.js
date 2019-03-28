@@ -48,12 +48,12 @@ export default class Update extends Action {
      * @param {object} model
      * @param {object} params
      * @param {object} data
-     * @param {function} callback
+     * @param {function} callback(context, resolve, reject)
      */
   static onSuccess(model, params, data, callback) {
     if (callback !== null) {
       return new Promise((resolve, reject) => {
-        callback(resolve, reject);
+        callback({model, params, data}, resolve, reject);
       });
     } else {
       model.update({
