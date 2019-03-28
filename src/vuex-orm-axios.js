@@ -4,6 +4,7 @@ import Fetch from './actions/Fetch'
 import Get from './actions/Get'
 import Create from './actions/Create'
 import Update from './actions/Update'
+import UpdateMany from './actions/UpdateMany'
 import Delete from './actions/Delete'
 
 export default class VuexOrmAxios {
@@ -28,6 +29,7 @@ export default class VuexOrmAxios {
     context.components.Actions.$get = Get.call.bind(Get)
     context.components.Actions.$create = Create.call.bind(Create)
     context.components.Actions.$update = Update.call.bind(Update)
+    context.components.Actions.$updateMany = UpdateMany.call.bind(UpdateMany)
     context.components.Actions.$delete = Delete.call.bind(Delete)
   }
 
@@ -61,6 +63,10 @@ export default class VuexOrmAxios {
 
     context.components.Model.$update = function(config = {}) {
       return this.dispatch('$update', config)
+    }
+
+    context.components.Model.$updateMany = function(config = {}) {
+      return this.dispatch('$updateMany', config)
     }
 
     context.components.Model.$delete = function(config = {}) {
