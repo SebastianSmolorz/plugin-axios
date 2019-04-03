@@ -39,13 +39,17 @@ export default class UpdateMany extends Action {
    * @param {object} params
    */
   static onRequest(model, params) {
-    model.update({
-      where: params.data.map(entity => entity.id),
-      data: {
-        $isUpdating: true,
-        $updateErrors: [],
-      },
-    });
+    try {
+      model.update({
+        where: params.data.map(entity => entity.id),
+        data: {
+          $isUpdating: true,
+          $updateErrors: [],
+        },
+      });
+    } catch {
+      console.log('Couldn\t commit onRequest update. Ignoring')
+    }
   }
 
   /**

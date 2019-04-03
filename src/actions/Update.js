@@ -39,13 +39,17 @@ export default class Update extends Action {
    * @param {object} params
    */
   static onRequest(model, params) {
-    model.update({
-      where: params.params.id,
-      data: {
-        $isUpdating: true,
-        $updateErrors: [],
-      },
-    });
+    try {
+      model.update({
+        where: params.params.id,
+        data: {
+          $isUpdating: true,
+          $updateErrors: [],
+        },
+      });
+    } catch {
+      console.log('Couldn\t commit onRequest update. Ignoring')
+    }
   }
 
   /**
@@ -57,6 +61,7 @@ export default class Update extends Action {
      */
   static onSuccess(model, params, data, callback) {
     if (callback !== undefined) {
+      console.log('HasCallback')
       return callback({ model, params, data });
     }
     model.update({
