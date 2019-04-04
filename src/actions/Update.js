@@ -39,7 +39,7 @@ export default class Update extends Action {
    * @param {object} params
    */
   static onRequest(model, params) {
-    try {
+    if (params.hasOwnProperty('params') && params.params.hasOwnProperty('id')) {
       model.update({
         where: params.params.id,
         data: {
@@ -47,7 +47,7 @@ export default class Update extends Action {
           $updateErrors: [],
         },
       });
-    } catch (e) {
+    } else {
       console.log('Couldn\t commit onRequest update. !Ignoring')
     }
   }
