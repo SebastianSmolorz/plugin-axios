@@ -27,13 +27,16 @@ export default class Delete extends Action {
    * @param {object} params
    */
   static onRequest(model, params) {
-    model.update({
-      where: params.params.id,
-      data: {
-        $isDeleting: true,
-        $deleteErrors: [],
-      },
-    })
+    try {
+      model.update({
+        where: params.params.id,
+        data: {
+          $isDeleting: true,
+          $deleteErrors: [],
+        },
+      })
+    } catch (e) {
+    }
   }
 
   /**

@@ -48,7 +48,7 @@ export default class Update extends Action {
         },
       });
     } catch (e) {
-      console.log('Couldn\t commit onRequest update. !Ignoring', e)
+      console.log('Couldn\t commit onRequest update. !Ignoring')
     }
   }
 
