@@ -47,8 +47,8 @@ export default class Update extends Action {
           $updateErrors: [],
         },
       });
-    } catch {
-      console.log('Couldn\t commit onRequest update. !Ignoring')
+    } catch (e) {
+      console.log('Couldn\t commit onRequest update. !Ignoring', e)
     }
   }
 
