@@ -52,7 +52,10 @@ export default class Action {
    * @param {object} config
    */
   static transformParams(type, model, config = {}) {
-    let endpoint = `${model.methodConf.http.url}${model.methodConf.methods[type].http.url}`
+    let { endpoint } = config
+    if (!endpoint) {
+      endpoint = `${model.methodConf.http.url}${model.methodConf.methods[type].http.url}`
+    }
     let params = (endpoint.match(/(\/?)(:)([A-z]*)/gm) || []).map(param => {
       return param.replace('/', '')
     })
