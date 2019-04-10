@@ -17,7 +17,7 @@ export default class Get extends Action {
 
     this.onRequest(commit)
     request.then(data => this.onSuccess(commit, model, data)).catch(error => this.onError(commit, error))
-
+    console.log(request)
     return request
   }
 
