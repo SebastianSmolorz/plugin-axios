@@ -42,7 +42,7 @@ export default class Fetch extends Action {
      * @param {object} data
      * @param {function} callback
      */
-  static onSuccess(commit, model, data, callback = null) {
+  static onSuccess(commit, model, callback = null, { data }) {
     commit('onSuccess');
     if (callback !== null) {
       return new Promise((resolve, reject) => {

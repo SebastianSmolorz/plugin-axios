@@ -59,7 +59,7 @@ export default class Update extends Action {
      * @param {object} data
      * @param {function} callback(context, resolve, reject)
      */
-  static onSuccess(model, params, data, callback) {
+  static onSuccess(model, params, callback, { data }) {
     if (callback !== undefined) {
       console.log('HasCallback')
       return callback({ model, params, data });
