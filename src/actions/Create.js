@@ -20,7 +20,7 @@ export default class Create extends Action {
     const request = axios.post(endpoint, params.data)
 
     this.onRequest(commit)
-    request.then(data => this.onSuccess(commit, model, data)).catch(error => this.onError(commit, error))
+    request.then(response => this.onSuccess(commit, model, response)).catch(error => this.onError(commit, error))
 
     return request
   }

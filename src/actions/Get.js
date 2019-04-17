@@ -16,9 +16,8 @@ export default class Get extends Action {
     const request = axios.get(endpoint)
 
     this.onRequest(commit)
-    request.then(data => this.onSuccess(commit, model, data)).catch(error => this.onError(commit, error))
-    console.log(request)
-    return { request: request.request, response: request.response, config: request.config }
+    request.then(response => this.onSuccess(commit, model, response)).catch(error => this.onError(commit, error))
+    return request
   }
 
   /**

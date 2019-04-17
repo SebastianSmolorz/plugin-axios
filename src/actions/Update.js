@@ -27,7 +27,7 @@ export default class Update extends Action {
       onSuccessCallback = params.onSuccess;
     }
     request
-      .then(data => this.onSuccess(model, params, data, onSuccessCallback))
+      .then(response => this.onSuccess(model, params, response, onSuccessCallback))
       .catch(error => this.onError(model, params, error));
 
     return request;
@@ -80,12 +80,17 @@ export default class Update extends Action {
    * @param {object} error
    */
   static onError(model, params, error) {
-    model.update({
-      where: params.params.id,
-      data: {
-        $isUpdating: false,
-        $updateErrors: error,
-      },
-    });
+    try {
+      model.update({
+        where: params.params.id,
+        data: {
+          $isUpdating: false,
+          $updateErrors: error,
+        },
+      });
+    } catch (err) {
+
+    }
+
   }
 }

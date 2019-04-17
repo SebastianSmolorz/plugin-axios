@@ -16,7 +16,7 @@ export default class Delete extends Action {
     const request = axios.delete(endpoint, { data: params.data })
 
     this.onRequest(model, params)
-    request.then(data => this.onSuccess(model, params, data)).catch(error => this.onError(model, params, error))
+    request.then(response => this.onSuccess(model, params, response)).catch(error => this.onError(model, params, error))
 
     return request
   }

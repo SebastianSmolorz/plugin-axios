@@ -19,7 +19,7 @@ export default class Fetch extends Action {
 
     this.onRequest(commit);
     request.then(
-      data => this.onSuccess(commit, model, data, callback),
+      response => this.onSuccess(commit, model, response, callback),
     ).catch(
       error => this.onError(commit, error),
     );
@@ -42,7 +42,7 @@ export default class Fetch extends Action {
      * @param {object} data
      * @param {function} callback
      */
-  static onSuccess(commit, model, data, callback = null) {
+  static onSuccess(commit, model, { data }, callback = null) {
     commit('onSuccess');
     if (callback !== null) {
       return new Promise((resolve, reject) => {
