@@ -9,7 +9,7 @@ export default class Update extends Action {
    * @param {object} store
    * @param {object} params
    */
-  static async call ({ state, commit }, params = {}) {
+  static async call ({ state, commit }, params = {}, { onRequest, onSuccess, onError }) {
     if(!params.data || typeof params !== 'object') {
       throw new TypeError("You must include a data object in the params to send a POST request", params)
     }
@@ -21,10 +21,14 @@ export default class Update extends Action {
     const method = Action.getMethod('$update', model, 'put');
     const request = axios[method](endpoint, params.data);
 
-    this.onRequest(model, params);
+    if (onRequest) {
+      onRequest(model, params);
+    } else {
+      this.onRequest(model, params);
+    }
     request
-      .then(data => this.onSuccess(model, params, data))
-      .catch(error => this.onError(model, params, error))
+      .then(response => onSuccess(model, params, response) || this.onSuccess(model, params, response))
+      .catch(error => onError(model, params, error) || this.onError(model, params, error))
 
     return request;
   }
