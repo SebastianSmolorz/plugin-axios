@@ -84,11 +84,20 @@ export const AxiosRequestConfig = {
   proxy: {},
 
   /**
+   * Default onRequest
+   * @param {object} config
+   * @param {Axios} Axios instance
+   */
+  onRequest(config, axios) {
+    return config;
+  },
+
+  /**
    * Default on Response
    * @param {object} response
    */
   onResponse(response) {
-    return response.data;
+    return response;
   },
 
   /**
