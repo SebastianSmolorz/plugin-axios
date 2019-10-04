@@ -8,9 +8,9 @@ export default class Update extends Action {
    * Call $update method
    * @param {object} store
    * @param {object} params
-   * @param {function} callback
+   * @param {Boolean} noCommit
    */
-  static async call({ state, commit }, params = {}) {
+  static async call({ state, commit }, params = {}, noCommit) {
     if (!params.data || typeof params !== 'object') {
       throw new TypeError('You must include a data object in the params to send a POST request', params);
     }
@@ -21,13 +21,8 @@ export default class Update extends Action {
     const request = axios.put(endpoint, params.data);
 
     this.onRequest(model, params);
-
-    let onSuccessCallback;
-    if (params.onSuccess && params.onSuccess !== undefined) {
-      onSuccessCallback = params.onSuccess;
-    }
     request
-      .then(response => this.onSuccess(model, params, response, onSuccessCallback))
+      .then(response => this.onSuccess(commit, model, params, response, noCommit))
       .catch(error => this.onError(model, params, error));
 
     return request;
@@ -48,7 +43,7 @@ export default class Update extends Action {
         },
       });
     } else {
-      console.log('Couldn\t commit onRequest update. !Ignoring')
+      return
     }
   }
 
@@ -57,20 +52,21 @@ export default class Update extends Action {
      * @param {object} model
      * @param {object} params
      * @param {object} data
-     * @param {function} callback(context, resolve, reject)
+     * @param {boolean} noCommit
      */
-  static onSuccess(model, params, { data }, callback) {
-    if (callback !== undefined) {
-      console.log('HasCallback')
-      return callback({ model, params, data });
+  static onSuccess(commit, model, params, { data }, noCommit = false) {
+    // commit('onSuccess');
+    if (noCommit) {
+      return data
+    } else {
+      model.update({
+        where: params.params.id || data.id,
+        data: merge({}, data, {
+          $isUpdating: false,
+          $updateErrors: [],
+        }),
+      });
     }
-    model.update({
-      where: params.params.id || data.id,
-      data: merge({}, data, {
-        $isUpdating: false,
-        $updateErrors: [],
-      }),
-    });
   }
 
   /**

@@ -8,7 +8,7 @@ export default class Create extends Action {
    * @param {object} store
    * @param {object} params
    */
-  static async call({ state, commit }, params = {}) {
+  static async call({ state, commit }, params = {}, noCommit = false) {
     if (!params.data || typeof params !== 'object') {
       throw new TypeError('You must include a data object in the params to send a POST request', params)
     }
@@ -20,7 +20,7 @@ export default class Create extends Action {
     const request = axios.post(endpoint, params.data)
 
     this.onRequest(commit)
-    request.then(response => this.onSuccess(commit, model, response)).catch(error => this.onError(commit, error))
+    request.then(response => this.onSuccess(commit, model, response, noCommit)).catch(error => this.onError(commit, error))
 
     return request
   }
@@ -39,8 +39,9 @@ export default class Create extends Action {
    * @param {object} model
    * @param {object} data
    */
-  static onSuccess(commit, model, { data }) {
+  static onSuccess(commit, model, { data }, noCommit) {
     commit('onSuccess')
+    if (noCommit) { return }
     model.insertOrUpdate({
       data,
     })

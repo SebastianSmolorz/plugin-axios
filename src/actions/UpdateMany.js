@@ -48,7 +48,7 @@ export default class UpdateMany extends Action {
         },
       });
     } catch {
-      console.log('Couldn\t commit onRequest update. Ignoring')
+      return
     }
   }
 

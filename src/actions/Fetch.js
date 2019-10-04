@@ -7,10 +7,9 @@ export default class Fetch extends Action {
      * Call $fetch method
      * @param {object} store
      * @param {object} params
-     * @param {function} callback - called after successful response. This
-     * function will be called instead of the default model.insertOrUpdate
+     * @param {Boolean} noCommit - won't persist data if true
      */
-  static async call({ state, commit }, params = {}, callback = null) {
+  static async call({ state, commit }, params = {}, noCommit) {
     const context = Context.getInstance();
     const model = context.getModelFromState(state);
     const endpoint = Action.transformParams('$fetch', model, params);
@@ -19,7 +18,7 @@ export default class Fetch extends Action {
 
     this.onRequest(commit);
     request.then(
-      response => this.onSuccess(commit, model, response, callback),
+      response => this.onSuccess(commit, model, response, noCommit),
     ).catch(
       error => this.onError(commit, error),
     );
@@ -40,14 +39,12 @@ export default class Fetch extends Action {
      * @param {object} commit
      * @param {object} model
      * @param {object} data
-     * @param {function} callback
+     * @param {boolean} noCommit - if true, will not persist data but instead return it.
      */
-  static onSuccess(commit, model, { data }, callback = null) {
+  static onSuccess(commit, model, { data }, noCommit = false) {
     commit('onSuccess');
-    if (callback !== null) {
-      return new Promise((resolve, reject) => {
-        callback(resolve, reject);
-      });
+    if (noCommit) {
+      return data
     } else {
       model.insertOrUpdate({
         data,
